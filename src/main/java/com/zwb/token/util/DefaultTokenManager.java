@@ -37,7 +37,8 @@ public class DefaultTokenManager{
 			Jws<Claims> claims = Jwts.parser()
 					.setSigningKey(JWTSECRET)
 					.parseClaimsJws(token);
-			user = claims.getBody().getSubject().toString();
+			if(claims!=null&&claims.getBody()!=null&&claims.getBody().getSubject()!=null)
+				user = claims.getBody().getSubject().toString();
 		} catch (SignatureException e) {
 			 System.out.println(e.getMessage());
 			 e.printStackTrace();

@@ -12,4 +12,7 @@
  <update id="updateUser" parameterType="User">
  UPDATE user SET username=#{username},password=#{password} WHERE id=#{id} 
  </update>
+ <select id="listAllUser" resultType="User">
+ 	SELECT * FROM user
+ </select>
  </mapper>
