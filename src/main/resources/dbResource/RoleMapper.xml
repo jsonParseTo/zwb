@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zwb.mapper.RoleMapper">
+	<resultMap type="Role" id="RolesPermissionsMap">
+		<id column="ROLEID" property="roleId" />
+		<result column="ROLENAME" property="roleName" />
+		<collection property="rolePermissions" ofType="Permission">
+			<id column="PERMISSIONID" property="permissionId" />
+			<result column="PERMISSIONNAME" property="permissionName" />
+		</collection>
+
+	</resultMap>
+	<select id="findRoleByUserId" resultMap="RolesPermissionsMap">
+		SELECT r.ROLEID,r.ROLENAME,p.PERMISSIONID,p.PERMISSIONNAME
+		FROM USER_ROLE ur,ROLE r ,ROLE_PERMISSION rp,PERMISSION p
+		WHERE r.ROLEID=ur.ROLEID AND r.ROLEID=rp.ROLEID AND p.PERMISSIONID=rp.PERMISSIONID
+		AND ur.USERID = #{userId}
+	</select>
+</mapper>

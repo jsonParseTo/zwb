@@ -22,7 +22,7 @@ public class UserTest {
 		UserService userService = (UserService) ctx.getBean("userService");
 		User u = new User("zwb", "888888");
 		User user = userService.login(u);
-		System.out.println("Username : "+user.getUsername()+" , Password : "+user.getPassword());
+		System.out.println("Username : "+user.getUserName()+" , Password : "+user.getPassWord());
 	}
 	
 	@Test
@@ -36,7 +36,7 @@ public class UserTest {
 	public void testupdateUser(){
 		UserService userService = (UserService) ctx.getBean("userService");
 		User user = new User("zwb", "999999");
-		user.setId(4);
+		user.setUserId(4);
 		userService.updateUser(user);
 	}
 }

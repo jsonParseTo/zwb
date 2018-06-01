@@ -13,4 +13,6 @@ public interface UserMapper {
 	public void updateUser(User user);
 
 	public List<User> listAllUser();
+
+	public User findUserByUsername(String userName);
 }

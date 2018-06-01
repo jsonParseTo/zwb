@@ -31,7 +31,19 @@ public class UserTest {
 		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
 		User u = new User("zwb", "888888");
 		User user = userMapper.login(u);
-		System.out.println("Username : "+user.getUsername()+" , Password : "+user.getPassword());
+		System.out.println("Username : "+user.getUserName()+" , Password : "+user.getPassWord());
+		System.out.println(user.getUserRoles().size());
 	}
+	
+	@Test
+	public void testFindUserByUsername(){
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+		User user = userMapper.findUserByUsername("zwb");
+		System.out.println("Username : "+user.getUserName()+" , Password : "+user.getPassWord());
+		System.out.println(user.getUserRoles().size());
+	}
+	
+	
 	
 }

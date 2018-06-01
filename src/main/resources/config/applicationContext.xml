@@ -12,8 +12,16 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.zwb" />
 
-	<context:property-placeholder location="classpath:config/db.properties" />
-
+<!-- 	<context:property-placeholder location="classpath:config/db.properties" /> -->
+ <bean
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config/db.properties</value>
+                <value>classpath:config/redis.properties</value>
+            </list>
+        </property>
+    </bean>
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="${jdbc.driver}"></property>
@@ -53,8 +61,8 @@
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
-		<property name="configLocation" value="classpath:config/sqlMapConfig.xml"></property>
-		<!-- <property name="typeAliasesPackage" value="com.zwb.entity"></property> -->
+		<!-- <property name="configLocation" value="classpath:config/sqlMapConfig.xml"></property> -->
+		<property name="typeAliasesPackage" value="com.zwb.entity"></property>
 		<property name="mapperLocations" value="classpath:dbResource/*Mapper.xml"></property>
 	</bean>
 

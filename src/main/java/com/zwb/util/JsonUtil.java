@@ -19,6 +19,11 @@ public class JsonUtil {
 		return map;
 	}
 	
+	public static <T> T JsonConvertToBean(String json,T t) throws IOException{
+		
+		return t;
+	}
+	
 	public static void main(String[] args) throws Exception {
 		Map<String ,String> map = new HashMap<String,String>();
 		map.put("name", "lucia");

@@ -4,7 +4,7 @@
  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-<!-- 	<properties resource="config/db.properties"></properties> -->
+	<properties resource="config/db.properties"></properties> 
 	<settings>
 		<setting name="lazyLoadingEnabled" value="true" />
 		<setting name="aggressiveLazyLoading" value="false" />
@@ -15,7 +15,6 @@
 		<package name="com.zwb.entity" />
 
 		<!-- <typeAlias type="com.lucia.entity.User" alias="user"/> -->
-		<!-- <typeAlias type="com.lucia.entity.Orders" alias="orders"/> -->
 	</typeAliases>
 	<!-- <plugins>
 		<plugin interceptor="com.lucia.util.PageHandler">
@@ -27,20 +26,20 @@
 			<property name="reasonable" value="true" />
 		</plugin>
 	</plugins> -->
-	<!-- <environments default="development">
+	 <environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${jdbc.driver}" />
 				<property name="url" value="${jdbc.url}" />
-				<property name="username" value="${jdbc.username}" />
+				<property name="username" value="${jdbc.user}" />
 				<property name="password" value="${jdbc.password}" />
 			</dataSource>
 		</environment>
-	</environments> -->
-	<!-- <mappers>
-		 <mapper resource="dbResource/UserMapper.xml" /> 
-		<package name="dbResource" /> 
+	</environments> 
+	 <mappers>
+		 <mapper resource="dbResource/UserMapper.xml" />  
+	<!-- 	<package name="dbResource" />  -->
 		
-	</mappers> -->
+	</mappers>
 </configuration>
