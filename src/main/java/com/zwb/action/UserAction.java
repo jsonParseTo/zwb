@@ -45,12 +45,18 @@ public class UserAction {
 		return reponse.success();
 	}
 	
+	@RequestMapping(value="/toLogin")
+	public Response register() throws Exception{
+		Response reponse= new Response();
+		return reponse.success("请先登录");
+	}
+	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public Response login(User user) throws Exception{
 		Response reponse= new Response();
 		String username = user.getUserName();
 		UsernamePasswordToken token = new UsernamePasswordToken(username, user.getPassWord());
-		token.setRememberMe(true);
+		//token.setRememberMe(true);
 		//获取当前的Subject
         Subject currentUser = SecurityUtils.getSubject();
         try {
@@ -78,7 +84,8 @@ public class UserAction {
          }
         //验证是否登录成功
         if(currentUser.isAuthenticated()){
-            System.out.println("用户[" + username + "]登录认证通过（这里可进行一些认证通过后的系统参数初始化操作）");
+        	System.out.println("sessionId: "+currentUser.getSession().getId());
+        	 System.out.println("用户[" + username + "]登录认证通过（这里可进行一些认证通过后的系统参数初始化操作）");
             User ruser = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
             ruser.setPassWord(null);
             List<Role> roles = ruser.getUserRoles();
@@ -111,7 +118,8 @@ public class UserAction {
 	public Response findAllUser() throws msgException{
 		Response reponse= new Response();
 		try {
-			User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
+			System.out.println("sessionId:  "+SecurityUtils.getSubject().getSession().getId());
+	       User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
 		List<User> userList = new ArrayList<User>();
 		if(("zwb").equals(user.getUserName()))
 			userList = userService.listAllUser();

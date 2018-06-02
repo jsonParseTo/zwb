@@ -1,9 +1,16 @@
 package com.zwb.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class User{
+import org.crazycake.shiro.AuthCachePrincipal;
+
+public class User implements Serializable, AuthCachePrincipal{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 
 	 */
@@ -70,6 +77,11 @@ public class User{
 
 	public void setUserRoles(List<Role> userRoles) {
 		this.userRoles = userRoles;
+	}
+
+	@Override
+	public String getAuthCacheKey() {
+		return getUserName();
 	}
 	
 	
