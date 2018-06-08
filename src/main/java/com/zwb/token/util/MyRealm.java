@@ -67,7 +67,7 @@ public class MyRealm extends AuthorizingRealm {
 	    	  Session session = SecurityUtils.getSubject().getSession();
 	          session.setAttribute("user",user);
 	           return new SimpleAuthenticationInfo(
-	        		  user.getUserName(), //用户
+	        		  user, //用户
 	                  user.getPassWord(), //密码
 	                  ByteSource.Util.bytes(userName),
 	                  getName() //realm name

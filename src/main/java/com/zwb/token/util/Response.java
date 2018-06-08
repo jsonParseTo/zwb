@@ -1,5 +1,7 @@
 package com.zwb.token.util;
 
+import java.io.Serializable;
+
 /**
  * 
 {
@@ -12,7 +14,11 @@ package com.zwb.token.util;
  * @author lucia
  *
  */
-public class Response {
+public class Response implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String OK = "ok";  
     private static final String ERROR = "error";  
   

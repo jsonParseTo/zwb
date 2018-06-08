@@ -25,10 +25,10 @@
 		USERNAME=#{userName},`PASSWORD`=#{passWord} WHERE USERID=#{id}
 	</update>
 	<select id="listAllUser" resultType="User">
-		SELECT * FROM user
+		SELECT u.USERID,u.USERNAME,u.CTIME FROM user u
 	</select>
 	<select id="findUserByUsername" resultType="User">
-		SELECT u.USERID,u.USERNAME,u.`PASSWORD` FROM user u
+		SELECT u.USERID,u.USERNAME,u.`PASSWORD`,u.SALT,u.CTIME FROM user u
 		WHERE  u.USERNAME = #{userName} 
 	</select>
 </mapper>

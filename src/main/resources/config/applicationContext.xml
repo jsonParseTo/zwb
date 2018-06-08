@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 		">
-
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	<context:annotation-config />
 	<context:component-scan base-package="com.zwb" />
 
@@ -61,8 +61,7 @@
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
-		<!-- <property name="configLocation" value="classpath:config/sqlMapConfig.xml"></property> -->
-		<property name="typeAliasesPackage" value="com.zwb.entity"></property>
+		<property name="configLocation" value="classpath:config/sqlMapConfig.xml"></property>
 		<property name="mapperLocations" value="classpath:dbResource/*Mapper.xml"></property>
 	</bean>
 
@@ -97,6 +96,10 @@
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="bussinessService" />
 	</aop:config>
 
+	<!-- <bean id = "aspect" class="com.zwb.util.Aspect"></bean> <aop:config> 
+		<aop:aspect ref="aspect"> <aop:pointcut expression="execution(* com.zwb.test.spring.AopImpl.*(..))" 
+		id="aoptest"/> <aop:before method="beforeAspect" pointcut-ref="aoptest"/> 
+		<aop:after method="afterAspect" pointcut-ref="aoptest"/> </aop:aspect> </aop:config> -->
 
 
 </beans>

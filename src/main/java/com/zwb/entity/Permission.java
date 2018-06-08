@@ -12,6 +12,9 @@ public class Permission implements Serializable{
 	 */
 	private Integer permissionId;
 	private String permissionName;
+	
+	public Permission() {
+	}
 	public Integer getPermissionId() {
 		return permissionId;
 	}

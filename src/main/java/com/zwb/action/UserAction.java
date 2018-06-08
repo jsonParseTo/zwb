@@ -14,19 +14,25 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mysql.jdbc.Security;
 import com.zwb.Expection.msgException;
 import com.zwb.entity.Role;
 import com.zwb.entity.User;
+import com.zwb.jackson.util.XunerJsonFilter;
+import com.zwb.jackson.util.XunerJsonFilters;
 import com.zwb.service.UserService;
 import com.zwb.token.util.EncryptUtil;
 import com.zwb.token.util.Response;
 
-@RestController
+@RestController(value="userAction")
 @RequestMapping("/user")
 public class UserAction {
 
@@ -51,7 +57,14 @@ public class UserAction {
 		return reponse.success("请先登录");
 	}
 	
+	@RequestMapping(value="/unauthor")
+	public Response unauthor() throws Exception{
+		Response reponse= new Response();
+		return reponse.success("暂无权限");
+	}
+	
 	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@XunerJsonFilters(value = { @XunerJsonFilter(mixin=User.class,target={"salt"}) })
 	public Response login(User user) throws Exception{
 		Response reponse= new Response();
 		String username = user.getUserName();
@@ -87,8 +100,6 @@ public class UserAction {
         	System.out.println("sessionId: "+currentUser.getSession().getId());
         	 System.out.println("用户[" + username + "]登录认证通过（这里可进行一些认证通过后的系统参数初始化操作）");
             User ruser = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
-            ruser.setPassWord(null);
-            List<Role> roles = ruser.getUserRoles();
             return reponse.success(ruser);
         }else{
             token.clear();
@@ -114,14 +125,22 @@ public class UserAction {
 //		return reponse;
 	}
 	
+	@RequestMapping(value="/loginout",method=RequestMethod.POST)
+	public Response loginOut() throws Exception{
+		Response reponse= new Response();
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+		return reponse.success();
+		
+	}
+	
+	//@RequiresRoles(value={})
 	@RequestMapping(value="/findAllUser",method=RequestMethod.GET)
 	public Response findAllUser() throws msgException{
 		Response reponse= new Response();
 		try {
 			System.out.println("sessionId:  "+SecurityUtils.getSubject().getSession().getId());
-	       User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
-		List<User> userList = new ArrayList<User>();
-		if(("zwb").equals(user.getUserName()))
+	   List<User> userList = new ArrayList<User>();
 			userList = userService.listAllUser();
 			reponse.success(userList);
 		}catch(Exception e) {

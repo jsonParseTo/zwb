@@ -6,6 +6,17 @@ import java.util.List;
 
 import org.crazycake.shiro.AuthCachePrincipal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.j2objc.annotations.Property;
+import com.zwb.jackson.util.MyDateJsonDeserialize;
+import com.zwb.jackson.util.MyDateJsonSerialize;
+
+
 public class User implements Serializable, AuthCachePrincipal{
 	/**
 	 * 
@@ -14,10 +25,19 @@ public class User implements Serializable, AuthCachePrincipal{
 	/**
 	 * 
 	 */
+	@JsonIgnore(value=false)
 	private Integer userId;
+	@JsonIgnore(value=false)
 	private String userName;
+	
+	@JsonIgnore(value=false)
 	private String passWord;
+	@JsonIgnore(value=false)
 	private String salt;
+	
+	@JsonSerialize(using=MyDateJsonSerialize.class)
+	@JsonDeserialize(using=MyDateJsonDeserialize.class)
+	@JsonIgnore(value=false)
 	private Date cTime;
 	
 	private List<Role> userRoles;
@@ -82,6 +102,12 @@ public class User implements Serializable, AuthCachePrincipal{
 	@Override
 	public String getAuthCacheKey() {
 		return getUserName();
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName + ", passWord=" + passWord + ", salt=" + salt
+				+ ", cTime=" + cTime + ", userRoles=" + userRoles + "]";
 	}
 	
 	

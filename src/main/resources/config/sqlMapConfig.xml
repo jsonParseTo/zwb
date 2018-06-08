@@ -26,7 +26,7 @@
 			<property name="reasonable" value="true" />
 		</plugin>
 	</plugins> -->
-	 <environments default="development">
+	<!--  <environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
@@ -36,10 +36,10 @@
 				<property name="password" value="${jdbc.password}" />
 			</dataSource>
 		</environment>
-	</environments> 
-	 <mappers>
-		 <mapper resource="dbResource/UserMapper.xml" />  
-	<!-- 	<package name="dbResource" />  -->
-		
-	</mappers>
+	</environments>  -->
+	 <!-- <mappers>
+		 <mapper resource="dbResource/UserMapper.xml" />   
+		<package name="dbResource" /> 
+		</mappers>
+	-->
 </configuration>

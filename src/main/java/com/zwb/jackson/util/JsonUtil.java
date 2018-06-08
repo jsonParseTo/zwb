@@ -1,4 +1,4 @@
-package com.zwb.util;
+package com.zwb.jackson.util;
 
 import java.io.IOException;
 import java.util.HashMap;
