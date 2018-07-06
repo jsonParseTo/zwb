@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.crazycake.shiro.AuthCachePrincipal;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,11 +33,14 @@ public class User implements Serializable, AuthCachePrincipal{
 	
 	@JsonIgnore(value=false)
 	private String passWord;
+	
+	private MultipartFile image;
+	
 	@JsonIgnore(value=false)
 	private String salt;
 	
-	@JsonSerialize(using=MyDateJsonSerialize.class)
-	@JsonDeserialize(using=MyDateJsonDeserialize.class)
+//	@JsonSerialize(using=MyDateJsonSerialize.class)
+//	@JsonDeserialize(using=MyDateJsonDeserialize.class)
 	@JsonIgnore(value=false)
 	private Date cTime;
 	
@@ -73,6 +77,14 @@ public class User implements Serializable, AuthCachePrincipal{
 
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
+	}
+
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
 	}
 
 	public String getSalt() {

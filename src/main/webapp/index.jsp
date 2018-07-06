@@ -8,14 +8,14 @@
 <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script> 
 <script type="text/javascript">
 
- axios.post('user/login', {
+/*  axios.post('user/login', {
 	"username" : "zwb",
 	"password" : "888888"
   }).then(function (response) {
     console.log(response);
   }).catch(function (error) {
     console.log(error);
-  }); 
+  });  */
 	/*  axios.get('user/login', {
 	    params: {
 	    	"username" : "zwb",
@@ -26,20 +26,17 @@
 	  }).catch(function (error) {
 	    console.log(error);
 	  });  */
-/*  $(function(){
+/*   $(function(){
 	 $.ajax({
-		url : 'user/login',
-		method : 'post',
-		data :{
-			"username" : "zwb",
-			"password" : "888888"
-		},
-	 success: function(rep){
-		 console.log(rep);
+		url : 'user/download',
+		method : 'get',
+		success: function(rep){
+		// console.log(rep);
 	 }
 		
 	});
 	
-})   */
+})    */
+window.open("http://localhost:8080/zwb/user/download");
 </script>
 </html>

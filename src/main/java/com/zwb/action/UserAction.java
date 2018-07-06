@@ -1,5 +1,7 @@
 package com.zwb.action;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -16,9 +19,18 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -42,6 +54,18 @@ public class UserAction {
 	@RequestMapping(value="/register",method=RequestMethod.POST)
 	public Response register(User user,HttpServletRequest request,HttpServletResponse rep) throws Exception{
 		Response reponse= new Response();
+		if(!user.getImage().isEmpty()){
+		String path = ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/images");
+		  //上传文件名
+        String filename = user.getImage().getOriginalFilename();
+        File filepath = new File(path,filename);
+        //判断路径是否存在，如果不存在就创建一个
+        if (!filepath.getParentFile().exists()) { 
+            filepath.getParentFile().mkdirs();
+        }
+        //将上传文件保存到一个目标文件当中
+        user.getImage().transferTo(new File(path + File.separator + filename));
+        }
 		user = EncryptUtil.EncryptUser(user);
 		try{
 	    	userService.addUser(user);
@@ -147,6 +171,23 @@ public class UserAction {
 			reponse.failure(e.getMessage());
 		}
 		return reponse;
+	}
+	
+	@RequestMapping(value="/download",method=RequestMethod.GET)
+	public ResponseEntity<byte[]>  download() throws Exception{
+		 //下载文件路径
+		String filename = "60432d7f9e2f07081bf7f5a9e224b899a801f23b.jpg";
+        String path = ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/images/");
+        File file = new File(path + File.separator + filename);
+        HttpHeaders headers = new HttpHeaders();  
+        //下载显示的文件名，解决中文名称乱码问题  
+        String downloadFielName = new String(filename.getBytes("UTF-8"),"iso-8859-1");
+        //通知浏览器以attachment（下载方式）打开图片
+        headers.setContentDispositionFormData("attachment", downloadFielName); 
+        //application/octet-stream ： 二进制流数据（最常见的文件下载）。
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+                headers, HttpStatus.OK);  
 	}
 	
 	

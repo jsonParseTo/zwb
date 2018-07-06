@@ -18,7 +18,7 @@
 	</resultMap> -->
 	<insert id="addUser" parameterType="User">
 		INSERT INTO
-		user(USERNAME,`PASSWORD`,SALT,CTIME) VALUES(#{userName},#{passWord},#{salt},#{cTime})
+		user(USERNAME,`PASSWORD`,IMAGE,SALT,CTIME) VALUES(#{userName},#{passWord},#{image,jdbcType=VARCHAR,typeHandler=com.zwb.util.FileTypeHandler},#{salt},#{cTime})
 	</insert>
 	<update id="updateUser" parameterType="User">
 		UPDATE user SET
